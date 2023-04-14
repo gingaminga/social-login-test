@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.post("/login", async (req, res, next) => {
+  console.log("/login start");
   try {
     const { code } = req.body;
 
@@ -27,14 +28,20 @@ app.post("/login", async (req, res, next) => {
     };
     res.status(500).json(errorData);
   }
+
+  console.log("/login finish");
 });
 
 app.get("/kakao/url", (req, res, next) => {
+  console.log("/kakao/url start");
+
   const url = KakaoClient.getAuthCodeURL();
 
   res.status(200).json({
     url,
   });
+  
+  console.log("/kakao/url finish");
 });
 
 export default app;
