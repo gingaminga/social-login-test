@@ -1,5 +1,4 @@
 import axios from "axios";
-import qs from "qs";
 
 class Kakao {
   constructor() {
@@ -28,9 +27,11 @@ class Kakao {
 
     const { data } = await axios.post(
       "https://kauth.kakao.com/oauth/token",
-      qs.stringify(params),
+      params,
       {
-        "Content-Type": "application/x-www-form-urlencoded",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       }
     );
 
@@ -47,13 +48,11 @@ class Kakao {
    * @param token 액세스 토큰
    */
   async getUserData(token) {
-    const { data } = await axios.get(
-      "https://kapi.kakao.com/v2/user/me",
-      null,
-      {
+    const { data } = await axios.get("https://kapi.kakao.com/v2/user/me", {
+      headers: {
         Authorization: `Bearer ${token}`,
-      }
-    );
+      },
+    });
 
     const userData = {
       nickname: data.kakao_account.profile.nickname,
